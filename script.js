@@ -11,11 +11,12 @@ function keyPad() {
 
     $(document).keypress(function(event) {
         var keyPressed = event.key;
+        let value = keyPressed.replace('/', '÷').replace('*', '×').replace('-', '−')
         if (keyPressed === '1' || keyPressed === '2' || keyPressed === '3' || keyPressed === '4' || keyPressed === '5' || keyPressed === '6' || keyPressed === '7' || keyPressed === '8' || keyPressed === '9' || keyPressed === '0') {
             $(".clear").text("C")
         }
         if (keyPressed === '1' || keyPressed === '2' || keyPressed === '3' || keyPressed === '4' || keyPressed === '5' || keyPressed === '6' || keyPressed === '7' || keyPressed === '8' || keyPressed === '9' || keyPressed === '0' || keyPressed === '+' || keyPressed === '-' || keyPressed === '*' || keyPressed === '/' || keyPressed === '%') {
-            display.val(display.val() + keyPressed);
+            display.val(display.val() + value);
         }
     });
 }
@@ -25,7 +26,7 @@ function clear() {
         if (event.key === 'c') {
             $(".clear").text("AC")
             display.val("");
-        } else if (event.key === 'a') {
+        } else if (event.key === 'a' && display.val() === '') {
             display.val("");
             history.val("");
         }
@@ -48,14 +49,16 @@ function clear() {
 function calc() {
     try {
         $(".calc").click(function() {
-            const result = eval(display.val());
+            let value = display.val()
+            const result = eval(value.replace('÷', '/').replace('×', '*').replace('−', '-'));
             history.val(history.val() + display.val() + ' = ' + result + '\n');
             display.val(result);
         });
         
         $(document).keypress(function(event) {
             if (event.key === '=' || event.key === 'Enter') {
-                const result = eval(display.val());
+                let value = display.val()
+                const result = eval(value.replace('÷', '/').replace('×', '*').replace('−', '-'));
                 history.val(history.val() + display.val() + ' = ' + result + '\n');
                 display.val(result);
             }
